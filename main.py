@@ -181,6 +181,8 @@ class EditHandler(webapp.RequestHandler):
         user = users.get_current_user()
         show_all_nav = user
         access_rights = UserRights(user, event)
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         if access_rights.can_edit:
             logout_url = users.create_logout_url('/')
             rooms = ROOM_OPTIONS
@@ -192,6 +194,8 @@ class EditHandler(webapp.RequestHandler):
     def post(self, id):
         event = Event.get_by_id(int(id))
         user = users.get_current_user()
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         access_rights = UserRights(user, event)
         if access_rights.can_edit:
             try:
@@ -263,6 +267,8 @@ class EditHandler(webapp.RequestHandler):
                     self.redirect(event_path(event))
             except ValueError, e:
                 error = str(e)
+                # this is not the permanent answer but just for now
+                cdn = 'http://cdn.hackerdojo.com'
                 self.response.out.write(template.render('templates/error.html', locals()))
         else:
             self.response.out.write("Access denied")
@@ -286,6 +292,8 @@ class EventHandler(webapp.RequestHandler):
             event.details = db.Text(event.details.replace('\n','<br/>'))
             show_all_nav = user
             event.notes = db.Text(event.notes.replace('\n','<br/>'))
+            # this is not the permanent answer but just for now
+            cdn = 'http://cdn.hackerdojo.com'
             self.response.out.write(template.render('templates/event.html', locals()))
 
     def post(self, id):
@@ -345,7 +353,9 @@ class ApprovedHandler(webapp.RequestHandler):
         show_all_nav = user
         events = Event.get_approved_list_with_multiday()
         tomorrow = today + timedelta(days=1)
-        whichbase = 'base.html'
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
+        whichbase = '../hd-ui/templates/base.html'
         if self.request.get('base'):
             whichbase = self.request.get('base') + '.html'
         self.response.out.write(template.render('templates/approved.html', locals()))
@@ -363,6 +373,8 @@ class MyEventsHandler(webapp.RequestHandler):
         show_all_nav = user
         today = local_today()
         tomorrow = today + timedelta(days=1)
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         self.response.out.write(template.render('templates/myevents.html', locals()))
 
 
@@ -376,6 +388,8 @@ class PastHandler(webapp.RequestHandler):
         today = local_today()
         show_all_nav = user
         events = Event.all().filter('start_time < ', today).order('-start_time')
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         self.response.out.write(template.render('templates/past.html', locals()))
 
 
@@ -389,6 +403,8 @@ class NotApprovedHandler(webapp.RequestHandler):
         today = local_today()
         show_all_nav = user
         events = Event.get_recent_not_approved_list()
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         self.response.out.write(template.render('templates/not_approved.html', locals()))
 
 
@@ -410,6 +426,8 @@ class AllFutureHandler(webapp.RequestHandler):
         events = Event.get_all_future_list()
         today = local_today()
         tomorrow = today + timedelta(days=1)
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         self.response.out.write(template.render('templates/all_future.html', locals()))
 
 class LargeHandler(webapp.RequestHandler):
@@ -423,6 +441,8 @@ class LargeHandler(webapp.RequestHandler):
         events = Event.get_large_list()
         today = local_today()
         tomorrow = today + timedelta(days=1)
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         self.response.out.write(template.render('templates/large.html', locals()))
 
 
@@ -437,6 +457,8 @@ class PendingHandler(webapp.RequestHandler):
         show_all_nav = user
         today = local_today()
         tomorrow = today + timedelta(days=1)
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         self.response.out.write(template.render('templates/pending.html', locals()))
 
 
@@ -450,6 +472,8 @@ class NewHandler(webapp.RequestHandler):
         else:
             login_url = users.create_login_url('/')
         rooms = ROOM_OPTIONS
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         rules = memcache.get("rules")
         if(rules is None):
           try:
@@ -525,6 +549,8 @@ class NewHandler(webapp.RequestHandler):
             #set_cookie(self.response.headers, 'formvalues', dict(self.request.POST))
             #self.redirect('/new')
             error = message
+            # this is not the permanent answer but just for now
+            cdn = 'http://cdn.hackerdojo.com'
             self.response.out.write(template.render('templates/error.html', locals()))
 
 class ConfirmationHandler(webapp.RequestHandler):
@@ -539,6 +565,8 @@ class ConfirmationHandler(webapp.RequestHandler):
               rules = "Error fetching rules.  Please report this error to internal-dev@hackerdojo.com."
       user = users.get_current_user()
       logout_url = users.create_logout_url('/')
+      # this is not the permanent answer but just for now
+      cdn = 'http://cdn.hackerdojo.com'
       self.response.out.write(template.render('templates/confirmation.html', locals()))
 
 class LogsHandler(webapp.RequestHandler):
@@ -551,6 +579,8 @@ class LogsHandler(webapp.RequestHandler):
         else:
             login_url = users.create_login_url('/')
         show_all_nav = user
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         self.response.out.write(template.render('templates/logs.html', locals()))
 
 class FeedbackHandler(webapp.RequestHandler):
@@ -558,6 +588,8 @@ class FeedbackHandler(webapp.RequestHandler):
     def get(self, id):
         user = users.get_current_user()
         event = Event.get_by_id(int(id))
+        # this is not the permanent answer but just for now
+        cdn = 'http://cdn.hackerdojo.com'
         if user:
             logout_url = users.create_logout_url('/')
         else:
