@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <script type="text/javascript" src="/static/js/jquery-ui-1.8.1.custom.min.js"></script>
-<script type="text/javascript" src="/static/js/new.js"></script>
+<script type="text/javascript" src="/static/js/new.js?v=2"></script>
 
 {% include 'nav_menu.html' %}
 
@@ -134,17 +134,6 @@
 
   </div>
 </div>
-
-<script>
-$('#room-FrontArea').click(function() {
-var answer = confirm("The front lobby can only be reserved for events related to Hacker Dojo, such as official meetings, Happy Hour, and such. Please confirm this event is for Official Hacker Dojo Business only.");
-if(answer){
-$('#room-FrontArea').attr('checked', true);
-} else {
-$('#room-FrontArea').removeAttr('checked');
-}
-});
-</script>
 
 
 {% endblock %}
