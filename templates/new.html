@@ -9,12 +9,9 @@
   <div id="primary">
     <h3>New Event</h3>
 
-    <div id="warn" style="margin:4px; margin-bottom:1.5em; padding:8px; border:1px solid #ffe7af; -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; background:#fffaed"><b>{{human}}</b> will be held personally responsible for this event.  You must show up and ensure the rules below are followed.  Failure to make a good faith effort will result in suspension of event hosting privileges for 45 days.</div>
-    <div style="margin:4px; margin-bottom:1.5em; padding:8px; color: black; display:none; border:1px solid red; background:#fee;  " id="error"></div>
-
-    <div style="width: 46%; float: right; font-size: smaller; padding: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; background: #eee; line-height: normal;" id="terms">
-      {{rules}}
-    </div>
+  <div style="width: 46%; float: right; font-size: smaller; padding: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; background: #eee; line-height: normal;" id="terms">
+    {{rules|safe}}
+  </div>
 
     <form method="post" style="width: 49%;">
       <h4>Event Name</h4>
@@ -110,22 +107,22 @@
             <input type="text" name="contact_phone" size="16" /></td>
         </tr></table>
 
-      <h4>More Info (optional)</h4>
-        <table style="margin: 0px;">
-          <tr><td><label for="details">Event details:</label>
-            <textarea rows="5" style="width: 300px;" name="details"></textarea></td></tr>
-          <tr><td><label for="url">Event URL:</label>
-            <input type="text" name="url" style="width: 300px;" /></td></tr>
-          <tr><td><label for="fee">Entry Fee:</label>
-            <input type="text" name="fee" size="8"/> <span style="color: gray; font-size: x-small;">Leave blank if free</span></td></tr>
-          <tr><td><label for="details">Requested Rooms:</label>
-          <span style="font-size:10;">(Capacity in parentheses)</span><br />
-            {% for room in rooms %}
-            <nobr><input type="checkbox" id="room-{{room.0|strip_spaces}}" name="rooms" value="{{room.0}}" /><label for="room-{{room.0}}">{{room.0|title}} ({{room.1}})</label></nobr>{% endfor %}
-          </td></tr>
-          <tr><td style="padding-top: 8px;"><label for="details">Special notes:</label>
-            <textarea rows="3" style="width: 300px;" name="notes"></textarea></td></tr>
-        </tr></table>
+    <h4>More Info:</h4>
+      <table style="margin: 0px;">
+        <tr><td><label for="details">Event details:<br/><span style="font-size:10;">Since all events are open to attendance by Hacker Dojo members, please describe your event.</span></label>
+          <textarea rows="5" style="width: 300px;" name="details"></textarea></td></tr>
+        <tr><td><label for="url">Event URL: (optional)</label>
+          <input type="text" name="url" style="width: 300px;" /></td></tr>
+        <tr><td><label for="fee">Entry Fee: (optional)</label>
+          <input type="text" name="fee" size="8"/> <span style="color: gray; font-size: x-small;">Leave blank if free</span></td></tr>
+        <tr><td><label for="details">Requested Rooms:</label>
+        <span style="font-size:10;">(Capacity in parentheses)</span><br />
+          {% for room in rooms %}
+          <nobr><input type="checkbox" id="room-{{room.0|strip_spaces}}" name="rooms" value="{{room.0}}" /><label for="room-{{room.0}}">{{room.0|title}} ({{room.1}})</label></nobr>{% endfor %}
+        </td></tr>
+        <tr><td style="padding-top: 8px;"><label for="details">Special notes:</label>
+          <textarea rows="3" style="width: 300px;" name="notes"></textarea></td></tr>
+      </tr></table>
 
       <p style="font-size:smaller;">You have 30 days for approval before your event application expires. The primary bottleneck to quick approval is getting staff to opt in. You will be notified either way.</p>
       <p style="font-size:smaller; font-weight: bold;">By submitting this event, you agree to the responsibilities listed to the right.</p>

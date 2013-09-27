@@ -1,1 +1,56 @@
-{% extends '../hd-ui/templates/base.html' %}
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{% block title %}Events at Hacker Dojo{% endblock %}</title>
+  <link href="/static/style.css" type="text/css" rel="stylesheet" />
+  {% block feed %}
+      <link rel="alternate" type="application/xml" title="Hacker Dojo events feed" href="/events.rss" />
+  {% endblock %}
+    <link type="text/css" href="/static/css/blitzer/jquery-ui-1.8.1.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.cookies.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-ui-1.8.1.custom.min.js"></script>
+    <script type="text/javascript" src="/static/js/DD_roundies_0.0.2a-min.js"></script>
+    <script type="text/javascript" src="/static/js/hd-events.js"></script>
+  </head>
+  <body>
+    <div id="top">
+      <div>
+        <span id="contact-link"><a href="http://wiki.hackerdojo.com/w/page/40789209/Contacting-Events-Team">Contact Events Team</a></span>
+        {% if user %}
+          <strong>{{user.email}}</strong> | <a href="/myevents">My Events</a> | <a href="{{logout_url}}">Logout</a>
+        {% else %}
+          <a style="font-weight: bold;" href="{{login_url}}">Login</a> | <a href="http://signup.hackerdojo.com/upgrade/needaccount">Need an account?</a>
+        {% endif %}
+      </div>
+    </div>
+    <div id="wrapper">
+      <div id="header">
+        <form action="/new" method="get"><div id='new-event-link'><button type="submit" id="nav_new" class="emph">New Event</button></div></form>
+        <div onclick="document.location.href='/';" style="cursor:pointer">
+        <img src="/static/dojo_icon.png" style="float: left;" />
+        <h1>Events</h1>
+        <h2 style="font-size: x-large;">at Hacker Dojo</h2>
+        </div>
+      </div>
+      <div id="content">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </body>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-27117910-3']);
+  _gaq.push(['_setDomainName', '.hackerdojo.com']);  
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>  
+</html>

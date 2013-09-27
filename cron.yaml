@@ -1,13 +1,16 @@
 cron:
-- description: expire old pending events
-  url: /expire
-  schedule: every 24 hours
-- description: reminder of expiring events in 10 days
-  url: /expiring
-  schedule: every 24 hours
-- description: remind people about their event
-  url: /reminder
-  schedule: every 20 minutes
+#- description: expire old pending events
+#  url: /expire
+#  schedule: every 100 hours
+#- description: reminder of expiring events in 10 days
+#  url: /expiring
+#  schedule: every 24 hours
+#- description: remind people about their event
+#  url: /reminder
+#  schedule: every 20 minutes
 - description: cache dojo domain stuff
   url: /domaincache
   schedule: every 1 hours
+- description: change HVAC mode as neccessary
+  url: /temperature
+  schedule: every 90 minutes
