@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <link href="/static/css/edit.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/static/js/jquery-ui-1.8.1.custom.min.js"></script>
 <script type="text/javascript" src="/static/js/edit.js"></script>
 
 <form method=POST>
@@ -60,13 +61,78 @@
     </table>
   </div>
 
-  <div class='b-block'>
-    <div class='b-label'>Rooms:<br /><span style="font-size:10; font-weight: normal;">(Capacity in<br/>parentheses)</span></div>
-    <div class='b-data checklist' id="roomlist">
-    {% for room in rooms %}
-      <nobr><input type="checkbox" id="room-{{room.0}}" name="rooms" value="{{room.0}}" {{event.rooms|check_filter:room.0}} /><label for="room-{{room.0}}">{{room.0|title}} ({{room.1}})</label></nobr>
-    {% endfor %}
-    </div>
+<div id="wrapper">
+  <div id="primary">
+    <form method=POST>
+      <h3>Edit: {{event.name}}</h3>
+      <div class='b-block'><div class='b-label'>Title:</div><div class='b-data'><input type="text" name="name" value="{{event.name}}"/></div></div>
+      <div class='b-block' id="message"></div>
+      <div class='b-block'>
+        <div class='b-label'>When:</div>
+        <table style="margin: 0px;" class='b-data'>
+          <tr>
+          <td class="first"><label for="start_date">Start Date:</label>
+            <input name="start_date" class="datepicker" value="{{event.start_time|american_date}}" readonly="readonly"/></td>
+          <td><label for="start_time">Start Time:</label>
+            <select name="start_time_hour" id="start_time_hour">
+            {% for hour in hours %}
+              <option {{event.start_time|select_hour:hour}}>{{hour}}</option>
+            {% endfor %}
+            </select>:
+            <select name="start_time_minute" id="start_time_minute">
+              <option {{event.start_time|select_minute:0}}>00</option>
+              <option {{event.start_time|select_minute:15}}>15</option>
+              <option {{event.start_time|select_minute:30}}>30</option>
+              <option {{event.start_time|select_minute:45}}>45</option>
+            </select> 
+            <select name="start_time_ampm" id="start_time_ampm">
+              <option {{event.start_time|select_ampm:"pm"}}>pm</option>
+              <option {{event.start_time|select_ampm:"am"}}>am</option>
+            </select>
+            </td>
+          </tr>
+          <tr>
+          <td class="first"><label for="end_date">End Date:</label>
+            <input name="end_date" class="datepicker" value="{{event.end_time|american_date}}" readonly="readonly"/></td>
+          <td><label for="end_time">End Time:</label>
+            <select name="end_time_hour" id="end_time_hour">
+            {% for hour in hours %}
+              <option {{event.end_time|select_hour:hour}}>{{hour}}</option>
+            {% endfor %}
+            </select>:
+            <select name="end_time_minute" id="end_time_minute">
+              <option {{event.end_time|select_minute:0}}>00</option>
+              <option {{event.end_time|select_minute:15}}>15</option>
+              <option {{event.end_time|select_minute:30}}>30</option>
+              <option {{event.end_time|select_minute:45}}>45</option>
+            </select> 
+            <select name="end_time_ampm" id="end_time_ampm">
+              <option {{event.end_time|select_ampm:"pm"}}>pm</option>
+              <option {{event.end_time|select_ampm:"am"}}>am</option>
+            </select>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class='b-block'>
+        <div class='b-label'>Rooms:<br /><span style="font-size:10; font-weight: normal;">(Capacity in<br/>parentheses)</span></div>
+        <div class='b-data checklist' id="roomlist">
+        {% for room in rooms %}
+          <nobr><input type="checkbox" id="room-{{room.0}}" name="rooms" value="{{room.0}}" {{event.rooms|check_filter:room.0}} /><label for="room-{{room.0}}">{{room.0|title}} ({{room.1}})</label></nobr>
+        {% endfor %}
+        </div>
+      </div>
+      <div class='b-block'><div class='b-label'>More Info:</div><div class='b-data'><textarea rows=4 name="details">{{event.details}}</textarea></div></div>
+      <div class='b-block'><div class='b-label'>Notes:</div><div class='b-data'><textarea rows=3 name="notes">{{event.notes}}</textarea></div></div>
+      <div class='b-block'><div class='b-label'>Estimated Size:</div><div class='b-data'><input type="text" name="estimated_size" value="{{event.estimated_size}}"/></div></div>
+      <div class='b-block'><div class='b-label'>Contact Name:</div><div class='b-data'><input type="text" name="contact_name" value="{{event.contact_name|title}}"/></div></div>
+      <div class='b-block'><div class='b-label'>Contact Phone:</div><div class='b-data'><input type="text" name="contact_phone" value="{{event.contact_phone}}"/></div></div>
+      <div class='b-block'><div class='b-label'>URL:</div><div class='b-data'><input type="text" name="url" value="{{event.url}}"/></div></div>
+      <div class='b-block'><div class='b-label'>Fee:</div><div class='b-data'><input type="text" name="fee" value="{{event.fee}}"/></div></div>
+      <br/>
+      <input type=submit value="Save">
+    </form>
   </div>
   <div class='b-block'><div class='b-label'>More Info:</div><div class='b-data'><textarea rows=4 name="details">{{event.details|safe}}</textarea></div></div>
   <div class='b-block'><div class='b-label'>Notes:</div><div class='b-data'><textarea rows=3 name="notes">{{event.notes|safe}}</textarea></div></div>
@@ -78,5 +144,4 @@
   <br/>
   <input type=submit value="Save">
 </div>
-
 {% endblock %}

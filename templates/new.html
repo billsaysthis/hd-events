@@ -1,27 +1,58 @@
 {% extends 'base.html' %}
 {% block content %}
+<script type="text/javascript" src="/static/js/jquery-ui-1.8.1.custom.min.js"></script>
 <script type="text/javascript" src="/static/js/new.js?v=2"></script>
 
-<div id="primary">
-  <h3>New Event</h3>
+{% include 'nav_menu.html' %}
 
-  <div id="warn" style="margin:4px; margin-bottom:1.5em; padding:8px; border:1px solid #ffe7af; -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; background:#fffaed"><b>{{human}}</b> will be held personally responsible for this event.  You must show up and ensure the rules below are followed.  Failure to make a good faith effort will result in suspension of event hosting privileges for 45 days.</div>
-  <div style="margin:4px; margin-bottom:1.5em; padding:8px; color: black; display:none; border:1px solid red; background:#fee;  " id="error"></div>
+<div id="wrapper">
+  <div id="primary">
+    <h3>New Event</h3>
 
   <div style="width: 46%; float: right; font-size: smaller; padding: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; background: #eee; line-height: normal;" id="terms">
     {{rules|safe}}
   </div>
 
-  <form method="post" style="width: 49%;">
-    <h4>Event Name</h4>
-    <input type="text" name="name" style="width: 300px; margin-left: 4px;" />
-    <h4>When</h4>
-    <table style="margin: 0px;">
-      <tr>
-        <td class="first"><label for="start_date">Start Date:</label>
-          <input name="start_date" id="start_date" readonly="readonly"/></td>
-        <td><label for="start_time">Start Time:</label>
-          <select name="start_time_hour">
+    <form method="post" style="width: 49%;">
+      <h4>Event Name</h4>
+      <input type="text" name="name" style="width: 300px; margin-left: 4px;" />
+      <h4>When</h4>
+      <table style="margin: 0px;">
+        <tr>
+          <td class="first"><label for="start_date">Start Date:</label>
+            <input name="start_date" id="start_date" readonly="readonly"/></td>
+          <td><label for="start_time">Start Time:</label>
+            <select name="start_time_hour">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+            </select>:
+            <select name="start_time_minute">
+              <option>00</option>
+              <option>15</option>
+              <option>30</option>
+              <option>45</option>
+            </select>
+            <select name="start_time_ampm">
+              <option>pm</option>
+              <option>am</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="first"><label for="end_date">End Date:</label>
+            <input name="end_date" id="end_date" class="datepicker" readonly="readonly"/></td>
+          <td><label for="end_time">End Time:</label>
+          <select name="end_time_hour">
             <option>1</option>
             <option>2</option>
             <option>3</option>
@@ -35,76 +66,46 @@
             <option>11</option>
             <option>12</option>
           </select>:
-          <select name="start_time_minute">
+          <select name="end_time_minute">
             <option>00</option>
             <option>15</option>
             <option>30</option>
             <option>45</option>
           </select>
-          <select name="start_time_ampm">
+          <select name="end_time_ampm">
             <option>pm</option>
             <option>am</option>
           </select>
-        </td>
-      </tr>
-      <tr>
-        <td class="first"><label for="end_date">End Date:</label>
-          <input name="end_date" id="end_date" class="datepicker" readonly="readonly"/></td>
-        <td><label for="end_time">End Time:</label>
-        <select name="end_time_hour">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-          <option>9</option>
-          <option>10</option>
-          <option>11</option>
-          <option>12</option>
-        </select>:
-        <select name="end_time_minute">
-          <option>00</option>
-          <option>15</option>
-          <option>30</option>
-          <option>45</option>
-        </select>
-        <select name="end_time_ampm">
-          <option>pm</option>
-          <option>am</option>
-        </select>
-        </td>
-      </tr>
-    </table>
+          </td>
+        </tr>
+      </table>
 
-    <h4>Type of Event</h4>
-      <table style="margin: 0px;"><tr>
-        <td class="first"><label for="type">Category:</label>
-          <select name="type" id="type-select" onchange="if(this.value=='Other...'){showOther();$('#type-text').focus()}">
-            <option>Meetup</option>
-            <option>Hackathon</option>
-            <option>Conference</option>
-            <option>Workshop</option>
-            <option>Lecture</option>
-            <option>Social</option>
-            <option>Setup Time</option>
-            <option>Dojo Admin</option>
-            <option>Other...</option>
-         </select>
-         <input type="text" id="type-text" onblur="$('#type-select').append('<option>'+this.value+'</option>');$('#type-select').val(this.value);hideOther();" style="display: none;" size="15"></td>
-        <td><label for="estimated_size" title="This will become a HARD LIMIT on your event.">Max persons:</label>
-          <input type="text" name="estimated_size" size="4" style="text-align: right;" /> <span>people</span></td>
-      </tr></table>
+      <h4>Type of Event</h4>
+        <table style="margin: 0px;"><tr>
+          <td class="first"><label for="type">Category:</label>
+            <select name="type" id="type-select" onchange="if(this.value=='Other...'){showOther();$('#type-text').focus()}">
+              <option>Meetup</option>
+              <option>Hackathon</option>
+              <option>Conference</option>
+              <option>Workshop</option>
+              <option>Lecture</option>
+              <option>Social</option>
+              <option>Setup Time</option>
+              <option>Dojo Admin</option>
+              <option>Other...</option>
+           </select>
+           <input type="text" id="type-text" onblur="$('#type-select').append('<option>'+this.value+'</option>');$('#type-select').val(this.value);hideOther();" style="display: none;" size="15"></td>
+          <td><label for="estimated_size" title="This will become a HARD LIMIT on your event.">Max persons:</label>
+            <input type="text" name="estimated_size" size="4" style="text-align: right;" /> <span>people</span></td>
+        </tr></table>
 
-    <h4>External Contact (if applicable)</h4>
-      <table style="margin: 0px;"><tr>
-        <td class="first"><label for="contact_name">Name:</label>
-          <input type="text" name="contact_name" size="16" /></td>
-        <td><label for="contact_phone">Phone Number:</label>
-          <input type="text" name="contact_phone" size="16" /></td>
-      </tr></table>
+      <h4>External Contact (if applicable)</h4>
+        <table style="margin: 0px;"><tr>
+          <td class="first"><label for="contact_name">Name:</label>
+            <input type="text" name="contact_name" size="16" /></td>
+          <td><label for="contact_phone">Phone Number:</label>
+            <input type="text" name="contact_phone" size="16" /></td>
+        </tr></table>
 
     <h4>More Info:</h4>
       <table style="margin: 0px;">
@@ -123,11 +124,12 @@
           <textarea rows="3" style="width: 300px;" name="notes"></textarea></td></tr>
       </tr></table>
 
-    <p style="font-size:smaller;">You have 30 days for approval before your event application expires. The primary bottleneck to quick approval is getting staff to opt in. You will be notified either way.</p>
-    <p style="font-size:smaller; font-weight: bold;">By submitting this event, you agree to the responsibilities listed to the right.</p>
-    <input type="submit" value="I agree, submit event for approval" style="font-size: larger; margin: 5px;" />
-  </form>
+      <p style="font-size:smaller;">You have 30 days for approval before your event application expires. The primary bottleneck to quick approval is getting staff to opt in. You will be notified either way.</p>
+      <p style="font-size:smaller; font-weight: bold;">By submitting this event, you agree to the responsibilities listed to the right.</p>
+      <input type="submit" value="I agree, submit event for approval" style="font-size: larger; margin: 5px;" />
+    </form>
 
+  </div>
 </div>
 
 

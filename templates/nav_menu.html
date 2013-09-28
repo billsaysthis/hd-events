@@ -1,3 +1,44 @@
-<div id="menu">
-  <strong>Filter Events:</strong> <a href="/" id="nav_approved">Approved</a> | <a href="/pending" id="nav_pending">Pending</a> {% if show_all_nav %}| <a href="/all_future" id="nav_all_future">All</a> {% endif %}
+<style>
+  .tagline { display: none; }
+  #login-block { border-bottom: 1px dotted #CCCCCC; font-size: 12px; font-weight: bold; margin-bottom: 1em; padding-bottom: 1em; }
+  #login-links { float: right; }
+  .login-action { font-weight: bold; }
+  .pageTitle { font-size: xx-large; }
+  #menu { float: right; }
+  #new-event-link { float: left; width: 100px; }
+  #wrapper { background: none repeat scroll 0 0 #EEEEEE; border-top: 3px solid #D50025; clear:both; padding: 10px; margin-top: 1em; font-size: 14px; }
+  #primary { background: #fff; line-height: 1.5; padding: 10px; border-radius: 8px; }
+  #primary h3 { font-size: 18px; }
+  #primary h4 { font-size: 16px; }
+  #header { display: block; overflow: auto; }
+  table td {vertical-align: top; }
+  label { display: block; }
+  nobr label { display: inline; font-size: 90%; }
+  #edit-approve-btns { padding-right: 50px; }
+  #edit-approve-btns, #cancel-delete-btns { display: inline; }
+  .b-block { overflow: auto; margin-top: 10px; }
+  .b-label { float: left; font-weight: bold; width: 150px; }
+  .b-data { float: left; width: 500px; }
+  .room-listing {font-size: 90%;}
+</style>
+
+<div id="header">
+  <div id="login-block">
+    <span id="contact-link"><a href="http://wiki.hackerdojo.com/w/page/40789209/Contacting-Events-Team">Contact Events Team</a></span>
+    <span id="login-links">
+      {% if user %}
+        <span class="login-action">{{user.email}}</span> | <a href="/myevents">My Events</a> | <a href="{{logout_url}}">Logout</a>
+      {% else %}
+        <a class="login-action" href="{{login_url}}">Login</a> | <a href="http://signup.hackerdojo.com/upgrade/needaccount">Need an account?</a>
+      {% endif %}
+    </span>
+  </div>
+
+  <h2 class="pageTitle">Events at Hacker Dojo</h2>
+  <form action="/new" method="get">
+    <div id="menu">
+      <strong>Filter Events:</strong> <a href="/" id="nav_approved">Approved</a> | <a href="/pending" id="nav_pending">Pending</a> {% if show_all_nav %}| <a href="/all_future" id="nav_all_future">All</a> {% endif %}
+    </div>
+    <div id='new-event-link'><button type="submit" id="nav_new" class="emph">New Event</button></div>
+  </form>
 </div>
