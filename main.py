@@ -198,6 +198,10 @@ class EditHandler(webapp.RequestHandler):
         event = Event.get_by_id(int(id))
         user = users.get_current_user()
         access_rights = UserRights(user, event)
+        formatted_url = cgi.escape(self.request.get('url'))
+        if ("http://" not in event.url and "https://" not in event.url):
+          formatted_url = "http://" + formatted_url
+
         if access_rights.can_edit:
             try:
                 start_time = datetime.strptime('%s %s:%s %s' % (
@@ -248,7 +252,7 @@ class EditHandler(webapp.RequestHandler):
                     event.details = cgi.escape(self.request.get('details'))
                     if (previous_object.details != event.details):
                       log_desc = log_desc + "<strong>Details:</strong> " + previous_object.details + " to " + event.details + "<br />"
-                    event.url = cgi.escape(self.request.get('url'))
+                    event.url = formatted_url
                     if (previous_object.url != event.url):
                       log_desc = log_desc + "<strong>Url:</strong> " + previous_object.url + " to " + event.url + "<br />"
                     event.fee = cgi.escape(self.request.get('fee'))
